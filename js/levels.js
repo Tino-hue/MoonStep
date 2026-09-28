@@ -354,11 +354,21 @@ export function initLevelMap() {
   const container = document.getElementById("level-map");
   if (!container) return;
 
+  // 找出当前关卡（第一个已解锁但未完成的）
+  let foundCurrent = false;
+
   container.innerHTML = levels
     .map((level) => {
       const unlocked = isLevelUnlocked(level.id, levels);
       const completed = isLevelCompleted(level.id);
-      const statusClass = completed ? "completed" : unlocked ? "" : "locked";
+      const isCurrent = !foundCurrent && unlocked && !completed;
+      if (isCurrent) foundCurrent = true;
+
+      const statusClass = [
+        completed ? "completed" : unlocked ? "" : "locked",
+        isCurrent ? "current" : "",
+      ].filter(Boolean).join(" ");
+
       const icon = completed ? "✓" : unlocked ? level.id.slice(0, 2) : "🔒";
 
       return `

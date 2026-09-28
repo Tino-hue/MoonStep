@@ -787,10 +787,429 @@ button {
   background: rgba(255, 255, 255, 0.25);
 }
 
+/* ============================================
+   ✨ Day 2 增强样式 - 微动效 & 精致细节
+   ============================================ */
+
+/* ---------- 顶部导航增强 ---------- */
+.topbar {
+  position: relative;
+}
+
+.topbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.3) 50%,
+    transparent 100%
+  );
+}
+
+.logo-icon {
+  position: relative;
+  display: inline-block;
+}
+
+/* 运行按钮脉冲效果（运行中） */
+.run-btn.running {
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(251, 191, 36, 0.6),
+      0 2px 8px rgba(251, 191, 36, 0.4);
+  }
+}
+
+/* ---------- 关卡地图节点动画 ---------- */
+.level-node {
+  animation: slide-in-left 0.5s var(--ease-out) both;
+}
+
+.level-node:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.level-node:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.level-node:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.level-node:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.level-node:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.level-node:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.level-node:nth-child(7) {
+  animation-delay: 0.35s;
+}
+.level-node:nth-child(8) {
+  animation-delay: 0.4s;
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 已完成关卡光晕 */
+.level-node.completed .level-node-circle {
+  position: relative;
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
+  animation: completed-glow 3s ease-in-out infinite;
+}
+
+@keyframes completed-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(251, 191, 36, 0.5);
+  }
+}
+
+/* 当前关卡高亮（第一个未完成且已解锁的） */
+.level-node.current .level-node-circle {
+  animation: current-pulse 2s ease-in-out infinite;
+  border-color: var(--moon-500);
+}
+
+@keyframes current-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ---------- 成就卡片悬浮效果 ---------- */
+.achievement-card {
+  transition:
+    transform var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+.achievement-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.achievement-card.unlocked:hover {
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.15);
+}
+
+.achievement-card.unlocked .achievement-icon {
+  animation: icon-float 3s ease-in-out infinite;
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* ---------- 成就通知 Toast ---------- */
+.achievement-toast {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  z-index: 2000;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 260px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(251, 191, 36, 0.1);
+  transform: translateX(calc(100% + 40px));
+  opacity: 0;
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s var(--ease-out);
+}
+
+.achievement-toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.achievement-toast-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  animation: toast-bounce 0.6s var(--ease-out);
+}
+
+@keyframes toast-bounce {
+  0% {
+    transform: scale(0) rotate(-30deg);
+  }
+  60% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+.achievement-toast-content {
+  flex: 1;
+}
+
+.achievement-toast-label {
+  font-size: 11px;
+  color: var(--moon-400);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.achievement-toast-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.achievement-toast-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* ---------- 教程面板增强 ---------- */
+.tutorial-panel {
+  position: relative;
+}
+
+.tutorial-header {
+  position: relative;
+}
+
+.tutorial-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-color), transparent);
+}
+
+/* 教程内容选中文字 */
+.tutorial-content ::selection {
+  background: rgba(251, 191, 36, 0.3);
+  color: var(--text-primary);
+}
+
+/* ---------- 编辑器工具栏增强 ---------- */
+.editor-toolbar {
+  position: relative;
+}
+
+.editor-toolbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-color), transparent);
+}
+
+/* 运行按钮点击波纹 */
+.run-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.run-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.3s,
+    height 0.3s;
+}
+
+.run-btn:active::after {
+  width: 200px;
+  height: 200px;
+  transition: 0s;
+}
+
+/* ---------- 控制台增强 ---------- */
+.console-header {
+  position: relative;
+}
+
+.console-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-color), transparent);
+}
+
+/* 控制台输出行渐入 */
+.console-output > div,
+.console-output > span {
+  animation: line-appear 0.3s var(--ease-out);
+}
+
+@keyframes line-appear {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- 弹窗增强 ---------- */
+.modal {
+  perspective: 1000px;
+}
+
+.modal-content {
+  transform-style: preserve-3d;
+  animation: modal-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotateX(10deg) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotateX(0) translateY(0);
+  }
+}
+
+/* 成功弹窗背景粒子效果 */
+.modal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(251, 191, 36, 0.1),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(251, 191, 36, 0.08),
+      transparent 40%
+    );
+  pointer-events: none;
+  animation: bg-drift 8s ease-in-out infinite alternate;
+}
+
+@keyframes bg-drift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(20px, -10px);
+  }
+}
+
+/* ---------- 按钮通用按压效果 ---------- */
+button:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* ---------- 页面切换过渡增强 ---------- */
+.view {
+  transform-origin: top center;
+}
+
+.view.active {
+  animation: view-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes view-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ---------- 滚动条增强 ---------- */
+::-webkit-scrollbar-thumb {
+  transition: background var(--duration-fast);
+}
+
 /* ---------- 响应式 ---------- */
+@media (max-width: 1280px) {
+  .learn-layout {
+    grid-template-columns: 300px 1fr 300px;
+  }
+}
+
 @media (max-width: 1024px) {
   .learn-layout {
-    grid-template-columns: 280px 1fr 280px;
+    grid-template-columns: 260px 1fr 260px;
+  }
+
+  .map-container {
+    padding: 32px 24px;
+  }
+
+  .map-title {
+    font-size: 26px;
   }
 }
 
@@ -802,6 +1221,78 @@ button {
 
   .tutorial-panel,
   .console-panel {
-    max-height: 40vh;
+    max-height: 35vh;
+  }
+
+  .topbar {
+    padding: 0 16px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  .nav-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .map-container {
+    padding: 24px 16px;
+  }
+
+  .map-title {
+    font-size: 22px;
+  }
+
+  .map-subtitle {
+    font-size: 13px;
+  }
+
+  .level-node-circle {
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+  }
+
+  .level-map::before {
+    left: 23px;
+  }
+
+  .achievement-toast {
+    left: 16px;
+    right: 16px;
+    top: 72px;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    height: 48px;
+  }
+
+  .progress-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .achievements-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .achievement-card {
+    padding: 16px 12px;
+  }
+
+  .achievement-icon {
+    font-size: 32px;
+  }
+
+  .editor-toolbar,
+  .console-header,
+  .tutorial-header {
+    height: 40px;
   }
 }

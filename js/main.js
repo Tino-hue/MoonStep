@@ -173,6 +173,7 @@ async function runCode() {
   const code = currentModel.getValue();
 
   runBtn.disabled = true;
+  runBtn.classList.add("running");
   consoleStatus.textContent = "运行中...";
   consoleStatus.className = "console-status running";
   consoleOutput.innerHTML = "";
@@ -254,6 +255,7 @@ async function runCode() {
     consoleOutput.innerHTML = `<div class="stderr">${escapeHtml(err.message || String(err))}</div>`;
   } finally {
     runBtn.disabled = false;
+    runBtn.classList.remove("running");
   }
 }
 

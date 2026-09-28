@@ -2,7 +2,12 @@
  * 成就系统
  */
 
-import { unlockAchievement, isAchievementUnlocked, getCompletedCount, getTotalRuns } from "./progress.js";
+import {
+  unlockAchievement,
+  isAchievementUnlocked,
+  getCompletedCount,
+  getTotalRuns,
+} from "./progress.js";
 
 // 成就定义
 const achievementDefinitions = [
@@ -99,7 +104,13 @@ export function checkAchievements(event, data) {
 
   if (newlyUnlocked.length > 0) {
     console.log("🏆 新成就解锁:", newlyUnlocked);
-    // TODO: 显示成就通知
+    // 显示成就通知
+    newlyUnlocked.forEach((id, index) => {
+      const def = achievementDefinitions.find((a) => a.id === id);
+      if (def) {
+        setTimeout(() => showAchievementToast(def), index * 800);
+      }
+    });
   }
 
   return newlyUnlocked;
@@ -107,6 +118,42 @@ export function checkAchievements(event, data) {
 
 function unlock(id) {
   return unlockAchievement(id);
+}
+
+// ========== 成就通知 Toast ==========
+function showAchievementToast(achievement) {
+  const container = document.getElementById("achievement-toast-container");
+  if (!container) return;
+
+  const toast = document.createElement("div");
+  toast.className = "achievement-toast";
+  toast.innerHTML = `
+    <div class="achievement-toast-icon">${achievement.icon}</div>
+    <div class="achievement-toast-content">
+      <div class="achievement-toast-label">成就解锁</div>
+      <div class="achievement-toast-name">${achievement.name}</div>
+      <div class="achievement-toast-desc">${achievement.description}</div>
+    </div>
+  `;
+
+  container.appendChild(toast);
+
+  // 触发入场动画
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      toast.classList.add("show");
+    });
+  });
+
+  // 3.5 秒后消失
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 600);
+  }, 3500);
 }
 
 // ========== 获取所有成就（含解锁状态） ==========
