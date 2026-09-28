@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoonStep — MoonBit 交互式学习平台</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航栏 -->
+    <header class="topbar">
+      <div class="logo">
+        <span class="logo-icon">🌙</span>
+        <span class="logo-text">MoonStep</span>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn active" data-view="map">关卡地图</button>
+        <button class="nav-btn" data-view="achievements">成就</button>
+      </nav>
+      <div class="topbar-right">
+        <span class="progress-badge">进度 0 / 8</span>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <!-- 关卡地图视图 -->
+      <section id="view-map" class="view active">
+        <div class="map-container">
+          <h2 class="map-title">选择你的第一步</h2>
+          <p class="map-subtitle">循序渐进，从变量到错误处理，掌握 MoonBit</p>
+          <div id="level-map" class="level-map">
+            <!-- 关卡节点由 JS 动态生成 -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 学习视图（编辑器 + 教程） -->
+      <section id="view-learn" class="view">
+        <div class="learn-layout">
+          <!-- 左侧教程面板 -->
+          <aside class="tutorial-panel">
+            <div class="tutorial-header">
+              <button class="back-btn" id="back-to-map">← 返回地图</button>
+              <h3 class="level-title" id="level-title">第 1 关 · 变量与基础类型</h3>
+            </div>
+            <div class="tutorial-content" id="tutorial-content">
+              <!-- 教程内容由 JS 动态加载 -->
+            </div>
+            <div class="tutorial-footer">
+              <button class="hint-btn" id="hint-btn">💡 给点提示</button>
+              <button class="reset-btn" id="reset-btn">↺ 重置代码</button>
+            </div>
+          </aside>
+
+          <!-- 中间编辑器 -->
+          <div class="editor-panel">
+            <div class="editor-toolbar">
+              <span class="file-label">main.mbt</span>
+              <button class="run-btn" id="run-btn">
+                <span class="run-icon">▶</span> 运行
+              </button>
+            </div>
+            <div id="editor" class="editor-container"></div>
+          </div>
+
+          <!-- 右侧控制台 -->
+          <div class="console-panel">
+            <div class="console-header">
+              <span class="console-title">控制台输出</span>
+              <span class="console-status" id="console-status">就绪</span>
+            </div>
+            <div id="console-output" class="console-output"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 成就视图 -->
+      <section id="view-achievements" class="view">
+        <div class="achievements-container">
+          <h2 class="page-title">成就徽章</h2>
+          <div id="achievements-list" class="achievements-list">
+            <!-- 成就由 JS 动态生成 -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 通关弹窗 -->
+    <div id="success-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="success-icon">🎉</div>
+        <h2>恭喜过关！</h2>
+        <p id="success-message">你已完成本关所有挑战</p>
+        <div class="modal-buttons">
+          <button class="btn-secondary" id="stay-btn">继续练习</button>
+          <button class="btn-primary" id="next-btn">下一关 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/moonpad/main.js"></script>
+</body>
+</html>

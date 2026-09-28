@@ -1,0 +1,19 @@
+{
+  "name": "moonstep",
+  "version": "0.1.0",
+  "description": "MoonBit 交互式学习平台",
+  "private": true,
+  "scripts": {
+    "build": "node build/esbuild.js",
+    "serve": "node build/serve.js",
+    "dev": "node build/dev.js",
+    "watch": "node build/esbuild.js --watch"
+  },
+  "dependencies": {
+    "@moonbit/moonpad-monaco": "^0.1.202606151",
+    "monaco-editor-core": "^0.52.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}
